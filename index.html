@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> LIVE </title>
+		
+		<link rel="stylesheet" type="text/css" href="css/normalize.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/custom.css">
+
+</head>
+<body>
+
+	<div class="container">
+		<div class="row" id="row1"></div>
+			<div class="col-md-12" id="topbanner">  </div>
+
+		<div class="row" id="row2"> 
+			<div class="col-md-10" id="map">  
+
+<!-- google maps iframe -->
+<!-- map size? css? -->
+						<iframe frameborder="0" style="border:0"
+src="https://www.google.com/maps/embed/v1/view?zoom=11&center=40.6782,-73.9442&key=AIzaSyAaWZ2bWE9utunxHsQaztiL4q9pWEb5gJQ" allowfullscreen id="gmiframe"></iframe>
+
+
+
+<!-- get geolocation -->
+<p>Click the button to get your coordinates.</p>
+<button onclick="getLocation()">Try It</button>
+<p id="demo"></p>
+
+
+
+
+
+
+
+<!-- show geolocation on map -->
+
+<p id="demo">Click the button to get your position.</p>
+<!-- where is the button??? -->
+<button onclick="getLocation()">Try It</button>
+<div id="mapholder"></div>
+
+
+
+			</div>
+
+
+			<div class="col-md-2" id="sidebanner">  
+
+					<div> 
+						<button id="share"> Share Location 
+						</button>
+						<button id="request"> Request Location 
+						</button>
+					</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+<!-- Share lightbox -->
+	<div id="lightbox">
+		<h1> Share Your Location  </h1>
+			<form> 
+				<input type="text" name="shareemailaddress" placeholder="Email Address"><br>
+ 				<input type="submit" value="Submit">
+			</form>
+
+
+			<button id="closelb" style="top:0px; position: absolute; right: 0px;"> X  
+				</button>
+	</div>
+
+
+
+<!-- causing trouble -->
+
+<!-- 
+	<div id="lightbox2">
+		<h1> Request Location From </h1>
+			<form> 
+				<input type="text" name="requestemailaddress" placeholder="Email Address"><br>
+ 				<input type="submit" value="Submit">
+			</form>
+
+
+			<button id="closelb" style="top:0px; position: absolute; right: 0px;"> X  
+				</button>
+	</div> 
+ -->
+
+
+
+
+	<script type="text/javascript" src="js/jquery2.2.4.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/js.js"></script>
+	<script>
+	var x = document.getElementById("demo");
+	function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+	function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+}
+</script>
+<script>
+	var x = document.getElementById("demo");
+
+	function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+	function showPosition(position) {
+    var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+    var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
+    +latlon+"&zoom=14&size=400x300&sensor=false";
+    document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
+}
+	
+	function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+    }
+}
+</script>
+</body>
+</html>
